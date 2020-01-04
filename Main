@@ -1,0 +1,56 @@
+/* Written by Natalie Lang 1/3/2020
+ * Takes a number from stdin and checks if it's a perfect square.
+ * Returns boolean value to standard out.
+ *
+ * Calculates the perfect square by using a binary search
+ *
+ */
+
+import java.lang.Boolean;
+import java.util.Scanner;
+import java.lang.Math;
+
+public class Main {
+    public static void main(String[] args) {
+        Boolean solution = new Boolean(false);
+        Scanner sc = new Scanner(System.in);
+        int input = sc.nextInt();
+        int prevIndex = 0;
+        int curIndex = input/2;
+        int range = (input/2) + (input%2);
+        
+        while (range != 1){
+            if (curIndex * curIndex == input) { //Found a Perfect Square
+                solution = true;
+                break;
+            } else {
+                if (curIndex * curIndex > input) { //Selecting a lower number
+                    prevIndex = curIndex;
+                    curIndex = prevIndex - range;
+                    range = (range/2) + (range%2);
+                } else { //Selecting a higher number
+                    prevIndex = curIndex;
+                    curIndex = prevIndex + range;
+                    range = (range/2) + (range%2);
+                }
+            }
+        }
+        
+        //In the case of odd input, does one additional iteration
+        if (solution != true && input%2 == 1) {
+                range = 1;
+                if (curIndex * curIndex > input) { //Selects lower number
+                    prevIndex = curIndex;
+                    curIndex = prevIndex - range;
+                    
+                } else { //Selects higher number
+                    prevIndex = curIndex;
+                    curIndex = prevIndex + range;
+                }
+        }
+        if (curIndex * curIndex == input) {
+            solution = true;
+        }
+        System.out.println(solution);
+    }
+}
